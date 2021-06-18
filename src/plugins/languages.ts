@@ -9,13 +9,14 @@ class Language {
 
     constructor(){
         this.languageElement = document.querySelector('.nav__list-languages');
-        this.localLanguage = parseInt(localStorage.getItem('language'))
+        this.localLanguage = parseInt(localStorage.getItem('language'));
         this.words = [];
     }
 
     language(){
-        // localStorage.setItem('language', `${0}`);
-        console.log(this.localLanguage);
+        if (localStorage.getItem('language') === null) {
+            this.localLanguage = 1;
+        }
         switch (this.localLanguage) {
             case 1:
                 this.words = English;

@@ -73,6 +73,10 @@
     font-size: 2rem;
     margin: 10px 10px;
     padding: 4px;
+   -moz-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
 }
 .container-input {
     margin-top: 15px;
@@ -120,14 +124,6 @@
 }
 .container-words__new-words:hover {
     background: rgba(249, 249, 249, 0.6);
-}
-.button {
-    cursor: pointer;
-    background: none;
-    border: none;
-}
-.button:focus  {
-    outline: 1.5px solid #212;
 }
 
 .container-results {

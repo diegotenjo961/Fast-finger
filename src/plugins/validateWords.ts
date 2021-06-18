@@ -12,11 +12,15 @@ class validateWords {
     private buttonNewWords: HTMLElement;
     private containerTime: HTMLElement;
     private containerWords: HTMLElement;
+    private correctWordsContainer: HTMLElement;
+    private wrongWordsContainer: HTMLElement;
 
     private nextWord: number = 0;
     private counterLettersGood: number = 0;
     private counterLettersBad: number = 0;
     private goodWords: number;
+    private correctWords: number = 0;
+    private badWords: number = 0;
     private wrongWords: number;
     private counterTime: number;
 
@@ -24,6 +28,8 @@ class validateWords {
     private booleanInput: boolean = true;
 
     constructor() {
+        this.wrongWordsContainer = document.querySelector('.wrong-words');
+        this.correctWordsContainer = document.querySelector('.correct-words');
         this.containerTime = document.querySelector('.container-words__time')
         this.buttonNewWords = document.querySelector('.container-words__new-words');
         this.inputWords = document.querySelector('.container-words__input');
@@ -33,21 +39,23 @@ class validateWords {
         this.containerKeystrokesWrong = document.querySelector('.keystrokes-wrong');
     }
     validate(containerWords: HTMLElement){
+        this.inputWords.focus();
         this.containerWords = containerWords;
         this.buttonNewWords.addEventListener('click',() => {
             this.containerTime.innerHTML = '1:00';
+            this.inputWords.focus();
             this.boolean = true;
             this.booleanInput = true;
         })
         if (this.boolean) {
-            const goodWords: number = Math.round(this.counterLettersGood / 5);
-            const wrongWords: number = Math.round(this.counterLettersBad / 5);
-            this.counterGoodWords.innerHTML = `${goodWords} WPM`;
-            this.counterWrongWords.innerHTML = `${wrongWords} Ww`;
+            this.badWords = 0;
+            this.correctWords = 0;
             this.nextWord = 0;
             this.counterLettersBad = 0;
             this.counterLettersGood = 0;
             this.inputWords.value = '';
+            this.counterGoodWords.innerHTML = `${this.goodWords} WPM`;
+            this.counterWrongWords.innerHTML = `${this.wrongWords} Ww`;
             return;
         }
 
@@ -65,6 +73,8 @@ class validateWords {
                 if (this.time.start === 0) {
                     this.counterGoodWords.innerHTML = `${this.goodWords} WPM`;
                     this.counterWrongWords.innerHTML = `${this.wrongWords} Ww`;
+                    this.correctWordsContainer.innerHTML = `${this.correctWords}`
+                    this.wrongWordsContainer.innerHTML = `${this.badWords}`;
 
                     this.containerKeystrokes.innerText = `${this.counterLettersGood}`;
                     this.containerKeystrokesWrong.innerText = `${this.counterLettersBad}`;
@@ -93,8 +103,11 @@ class validateWords {
         }
     }
     keyPressSpace() {
-        this.oneWord = document.querySelector(`.word-${this.nextWord}`)
+        this.oneWord = document.querySelector(`.word-${this.nextWord}`);
 
+        if (this.oneWord.innerHTML === this.inputWords.value) {
+            this.correctWords += 1;
+        }
         const arrayInput = this.inputWords.value.split('');
         const arrayWord = this.oneWord.innerHTML.split('');
         for(const index in arrayInput){
@@ -105,9 +118,12 @@ class validateWords {
                 this.counterLettersBad += 1;
             }
         }
+        if(this.inputWords.value !== this.oneWord.innerHTML){
+            this.badWords += 1;
+        }
         this.counterLettersGood -= 1;
+        this.wrongWords = Math.round(this.counterLettersBad / 5);
         this.goodWords = Math.round(this.counterLettersGood / 5);
-        this.wrongWords= Math.round(this.counterLettersBad / 5);
 
         this.containerKeystrokes.style.color = 'green'
         this.containerKeystrokesWrong.style.color = 'red'
