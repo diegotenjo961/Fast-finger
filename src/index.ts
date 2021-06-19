@@ -1,5 +1,6 @@
 import ParseWords from './plugins/parseWords';
 import LanguageWords from './plugins/languages';
+import './styles/index.css';
 
 const newWords: HTMLElement = document.querySelector('.container-words__new-words');
 const instanceLanguage = new LanguageWords();
