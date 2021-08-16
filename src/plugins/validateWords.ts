@@ -64,13 +64,15 @@ class validateWords {
 
         this.inputWords.addEventListener('input', this.handleInput.bind(this));
     }
+
     handleInput(e: any) {
         if (this.booleanInput) {
             this.time = new Time('container-words__time', 59, 0, this.buttonNewWords);
             this.counterTime = this.time.temporization();
             this.booleanInput = false;
             setTimeout(() => {
-                if (this.time.start === 0) {
+                if (this.time.start === 4){
+                    console.log(this.time.start)
                     this.counterGoodWords.innerHTML = `${this.goodWords} WPM`;
                     this.counterWrongWords.innerHTML = `${this.wrongWords} Ww`;
                     this.correctWordsContainer.innerHTML = `${this.correctWords}`
@@ -102,6 +104,7 @@ class validateWords {
             }
         }
     }
+
     keyPressSpace() {
         this.oneWord = document.querySelector(`.word-${this.nextWord}`);
 
