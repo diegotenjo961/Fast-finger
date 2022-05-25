@@ -1,39 +1,41 @@
 class Time {
-    private el: string;
-    start: number;
+    private className: string;
+    actualTime: number;
     private finish: number;
     private boolean: boolean;
     private buttonNewWords: HTMLElement;
+    private buttonNWClicked: boolean;
+    private idInterval: number; 
 
 
-    constructor(elClass: string, start: number, finish: number, buttonNewWords: HTMLElement) {
-        this.el = elClass;
-        this.start = start;
+    constructor(start: number, finish: number, buttonNewWords: HTMLElement) {
+        this.className = 'container-words__time';
+        this.actualTime = start;
         this.finish = finish;
-        this.boolean = false;
+        this.buttonNWClicked = false;
         this.buttonNewWords = buttonNewWords;
     }
 
     temporization(){
         this.buttonNewWords.addEventListener('click', () => {
-            this.boolean = true;
+            this.buttonNWClicked = true;
         })
-        const counterSeconds = () => {
-            if (this.start === this.finish) {
-                document.querySelector(`.${this.el}`).innerHTML = `1:00`
-                return this.start;
-            }
-            if (this.boolean) {
+        const idInterval = setInterval(() => {
+            if (this.actualTime === this.finish) {
+                document.querySelector(`.${this.className}`).innerHTML = `1:00`
+                clearInterval(idInterval)
                 return;
             }
-            const time: string = this.start.toString();
-            const containerTime = document.querySelector(`.${this.el}`);
+            if (this.buttonNWClicked) {
+                this.actualTime = 0
+                clearInterval(idInterval)
+                return;
+            }
+            const time: string = this.actualTime.toString();
+            const containerTime = document.querySelector(`.${this.className}`);
             containerTime.innerHTML = `0:${time}`
-            this.start -= 1;
-            setTimeout(counterSeconds, 1000)
-            return this.start;
-        }
-        return counterSeconds();
+            this.actualTime -= 1;
+        }, 1000)
     }
 }
 export default Time;

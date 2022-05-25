@@ -27,6 +27,8 @@ class validateWords {
     private boolean: boolean = false;
     private booleanInput: boolean = true;
 
+    private idTimeOut: any;
+
     constructor() {
         this.wrongWordsContainer = document.querySelector('.wrong-words');
         this.correctWordsContainer = document.querySelector('.correct-words');
@@ -46,6 +48,7 @@ class validateWords {
             this.inputWords.focus();
             this.boolean = true;
             this.booleanInput = true;
+            clearTimeout(this.idTimeOut)
         })
         if (this.boolean) {
             this.badWords = 0;
@@ -65,14 +68,12 @@ class validateWords {
         this.inputWords.addEventListener('input', this.handleInput.bind(this));
     }
 
-    handleInput(e: any) {
+    startTyping() {
         if (this.booleanInput) {
-            this.time = new Time('container-words__time', 59, 0, this.buttonNewWords);
-            this.counterTime = this.time.temporization();
+            this.time = new Time(59, 0, this.buttonNewWords);
+            this.time.temporization();
             this.booleanInput = false;
-            setTimeout(() => {
-                if (this.time.start === 4){
-                    console.log(this.time.start)
+            this.idTimeOut = setTimeout(() => {
                     this.counterGoodWords.innerHTML = `${this.goodWords} WPM`;
                     this.counterWrongWords.innerHTML = `${this.wrongWords} Ww`;
                     this.correctWordsContainer.innerHTML = `${this.correctWords}`
@@ -81,9 +82,13 @@ class validateWords {
                     this.containerKeystrokes.innerText = `${this.counterLettersGood}`;
                     this.containerKeystrokesWrong.innerText = `${this.counterLettersBad}`;
                     this.containerWords.style.display = 'none';
-                }
-            }, 60000);
+                }, 60000);
         }
+    }
+
+    handleInput(e: any) {
+        // this execute just when start typing
+        this.startTyping()
 
         if (e.data === ' ') {
             this.keyPressSpace();
@@ -99,7 +104,6 @@ class validateWords {
                 }
                 else{
                     this.oneWord.style.color = 'red';
-                    return;
                 }
             }
         }
