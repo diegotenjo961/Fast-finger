@@ -1,5 +1,12 @@
-## FAST-FINGER
+# Fast finger test
+## Install dependencies
 
-Test your skill
+``` npm install
 
-# Page here [Fast-Finger](https://tenjodiego961.github.io/Fast-finger/dist)
+## Run application in development mode
+
+``` npm start
+
+## Run application in production mode
+
+``` npm run build
